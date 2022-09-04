@@ -1,3 +1,10 @@
+#Commenting out the following processes to prevent logging, recording, and uploading on C3 (should work on C2 as well)
+#logcatd
+#loggerd
+#logmessaged
+#tombstoned
+#uploader
+
 import os
 
 from cereal import car
@@ -21,15 +28,15 @@ procs = [
   # due to qualcomm kernel bugs SIGKILLing camerad sometimes causes page table corruption
   NativeProcess("camerad", "system/camerad", ["./camerad"], unkillable=True, callback=driverview),
   NativeProcess("clocksd", "system/clocksd", ["./clocksd"]),
-  NativeProcess("logcatd", "system/logcatd", ["./logcatd"]),
+  #NativeProcess("logcatd", "system/logcatd", ["./logcatd"]),
   NativeProcess("proclogd", "system/proclogd", ["./proclogd"]),
-  PythonProcess("logmessaged", "system.logmessaged", offroad=True),
+  #PythonProcess("logmessaged", "system.logmessaged", offroad=True),
   PythonProcess("timezoned", "system.timezoned", enabled=not PC, offroad=True),
 
   DaemonProcess("manage_athenad", "selfdrive.athena.manage_athenad", "AthenadPid"),
   NativeProcess("dmonitoringmodeld", "selfdrive/modeld", ["./dmonitoringmodeld"], enabled=(not PC or WEBCAM), callback=driverview),
   NativeProcess("encoderd", "selfdrive/loggerd", ["./encoderd"]),
-  NativeProcess("loggerd", "selfdrive/loggerd", ["./loggerd"], onroad=False, callback=logging),
+  #NativeProcess("loggerd", "selfdrive/loggerd", ["./loggerd"], onroad=False, callback=logging),
   NativeProcess("modeld", "selfdrive/modeld", ["./modeld"]),
   NativeProcess("sensord", "selfdrive/sensord", ["./sensord"], enabled=not PC),
   NativeProcess("ubloxd", "selfdrive/locationd", ["./ubloxd"], enabled=(not PC or WEBCAM)),
@@ -49,9 +56,9 @@ procs = [
   PythonProcess("plannerd", "selfdrive.controls.plannerd"),
   PythonProcess("radard", "selfdrive.controls.radard"),
   PythonProcess("thermald", "selfdrive.thermald.thermald", offroad=True),
-  PythonProcess("tombstoned", "selfdrive.tombstoned", enabled=not PC, offroad=True),
+  #PythonProcess("tombstoned", "selfdrive.tombstoned", enabled=not PC, offroad=True),
   PythonProcess("updated", "selfdrive.updated", enabled=not PC, onroad=False, offroad=True),
-  PythonProcess("uploader", "selfdrive.loggerd.uploader", offroad=True),
+  #PythonProcess("uploader", "selfdrive.loggerd.uploader", offroad=True),
   PythonProcess("statsd", "selfdrive.statsd", offroad=True),
 
   NativeProcess("bridge", "cereal/messaging", ["./bridge"], onroad=False, callback=notcar),
